@@ -12,26 +12,27 @@ function Slider(props){
             let sliderSwiper = new Swiper(".slider-container",{
                 // effect: 'fade',
                 loop:true,
-                autoplay:2000,
+                autoplay:true,
                 disableOnInteraction:false,
-                pagination:'.swiper-pagination',
+                pagination:{
+                    el:'.swiper-pagination'
+                },
                 paginationClickable:true,
                 paginationType: 'bullets',
-
             })
             setSliderSwiper(sliderSwiper)
         }
-    },[bannerList,sliderSwiper])
+    },[bannerList.length,sliderSwiper])
 
     return (
         <SliderContainer>
             <div className='before'></div>
             <div className='slider-container'>
                 <div className='swiper-wrapper'>
-                    {
+                    { 
                         bannerList.map((slider,index)=>{
                             return (
-                                <div className="swiper-slider" key={index+slider.imageUrl}>
+                                <div className="swiper-slide" key={index+slider.imageUrl}>
                                     <div className="slider-nav">
                                         <img src={slider.imageUrl} width='100%' height='100%' alt='推荐' />
                                     </div>
@@ -39,8 +40,8 @@ function Slider(props){
                             )
                         })
                     }
-                    <div className='swiper-pagination'></div>
                 </div>
+                <div className='swiper-pagination'></div>
             </div>
         </SliderContainer>
     )
