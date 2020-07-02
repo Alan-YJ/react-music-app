@@ -1,9 +1,9 @@
-import React from 'react'
+import React from 'react';
 
-function Singers(props){
-    return (
+const Singers = (props)=>{
+    return(
         <div>Singers</div>
     )
 }
 
-export default React.memo(Singers);
+export default React.memo(Singers)

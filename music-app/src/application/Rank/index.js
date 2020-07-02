@@ -1,9 +1,9 @@
-import React from 'react'
+import React from 'react';
 
-function Rank(props){
-    return (
-        <div>Rank</div>
+const Rank = (props)=>{
+    return(
+        <div></div>
     )
 }
 
-export default React.memo(Rank);
+export default React.memo(Rank)

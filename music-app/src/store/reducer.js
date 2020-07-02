@@ -1,5 +1,5 @@
-import { combineReducers } from 'redux-immutable';
+import { combineReducers } from 'redux-immutable'
 
-export default combineReducers ({
-
-});
+export default combineReducers({
+    
+})
