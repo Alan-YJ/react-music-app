@@ -9,7 +9,7 @@ const Item = (props)=>{
             <dt>
                 <img src={`${item.picUrl}?param=300x300`} />
             </dt>
-            <dd className="title">{item.name}</dd>
+            <dd className="desc">{item.name}</dd>
             <dd className="play-count">
                 <span className="iconfont">&#xe672;</span>
                 <span>{ formatCount(item.playCount) }</span>

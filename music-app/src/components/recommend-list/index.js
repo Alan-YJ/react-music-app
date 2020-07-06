@@ -1,17 +1,20 @@
 import React from 'react';
 import Item from './item'
-import { RecommendContainer } from './style'
+import { RecommendContainer, RecommendTitle } from './style'
 
 const RecommendList = (props)=>{
     const { list } = props
     return (
-        <RecommendContainer>
-            { list.map(item=>{
-                return (
-                    <Item item={item}></Item>
-                )
-            })}
-        </RecommendContainer>
+        <>
+            <RecommendTitle className="title">推荐歌单</RecommendTitle>
+            <RecommendContainer>
+                { list.map(item=>{
+                    return (
+                        <Item item={item} key={item.id}></Item>
+                    )
+                })}
+            </RecommendContainer>
+        </>
     )
 }
 

@@ -21,6 +21,7 @@ const Slider = (props)=>{
             });
             setSliderSwiper(newSliderSwiper)
         }
+        console.info("list:",bannerList,sliderSwiper)
     }, [bannerList.length, sliderSwiper])
 
     return (
@@ -29,9 +30,9 @@ const Slider = (props)=>{
             <div className="slider-container">
                 <div className="swiper-wrapper">
                     {
-                        bannerList.map(slider=>{
+                        bannerList.map((slider)=>{
                             return (
-                                <div className="swiper-slider" key={slider.imageUrl}>
+                                <div className="swiper-slide" key={slider.imageUrl}>
                                     <div className="slider-nav">
                                         <img src={slider.imageUrl} width='100%' height='100%' alt='推荐'/>
                                     </div>
