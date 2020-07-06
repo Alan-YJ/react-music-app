@@ -12,6 +12,11 @@ export const changeRecommendList = (data)=>({
     data:fromJS(data)
 })
 
+export const changeLoading = (data)=>({
+    type:actionTypes.CHANGE_LOADING,
+    data:data
+})
+
 export const getBannerList = ()=>{
     return (dispatch)=>{
         getBannerRequest().then(data=>{
@@ -24,8 +29,10 @@ export const getBannerList = ()=>{
 
 export const getRecommendList = ()=>{
     return (dispatch)=>{
+        dispatch(changeLoading(true))
         getRecommendListRequest().then(data=>{
             dispatch(changeRecommendList(data.result))
+            dispatch(changeLoading(false))
         }).catch(()=>{
             console.error('推荐歌单数据传输错误')
         })
