@@ -2,11 +2,15 @@ import React, { forwardRef, useState, useRef, useEffect, useImperativeHandle } f
 import Scroll from 'better-scroll'
 import PropTypes from 'prop-types'
 import { ScrollContainer } from './style'
+import Loading from '../loading'
+import LoadingV2 from '../loading-v2'
 
 const ScrollComponent = forwardRef((props,ref)=>{
-    const { direction, click, refresh, bounceTop, bounceBottom, pullUp, pullDown, onScroll, children } = props
+    const { direction, click, refresh, bounceTop, bounceBottom, pullUp, pullingUp, pullDown, onScroll, children, pullUpLoading, pullDownLoading } = props
     const [bScroll, setBScroll] = useState()
     const scrollContainerRef = useRef()
+    const PullUpdisplayStyle = pullUpLoading ? { display:""} : {display:'none'}
+    const PullDowndisplayStyle = pullDownLoading ? { display:""} : {display:'none'}
 
     useEffect(()=>{
         const scroll = new Scroll( scrollContainerRef.current,{
@@ -52,6 +56,20 @@ const ScrollComponent = forwardRef((props,ref)=>{
     },[pullUp,bScroll])
 
     useEffect(()=>{
+        if(!bScroll || !pullingUp){
+            return
+        }
+        bScroll.on('scrollEnd',()=>{
+            if(bScroll.y <= bScroll.maxScrollY + 100){
+                pullingUp()
+            }
+        })
+        return ()=>{
+            bScroll.off('scrollEnd')
+        }
+    },[pullingUp,bScroll])
+
+    useEffect(()=>{
         if(!bScroll || !pullDown){
             return
         }
@@ -88,6 +106,8 @@ const ScrollComponent = forwardRef((props,ref)=>{
     return (
         <ScrollContainer ref={scrollContainerRef}>
             { children }
+            <div style={PullUpdisplayStyle}><Loading></Loading></div>
+            <div style={PullDowndisplayStyle}><LoadingV2></LoadingV2></div>
         </ScrollContainer>
     )
 })
@@ -100,6 +120,7 @@ ScrollComponent.defaultProps = {
     pullUpLoading: false,
     pullDownLoading: false,
     pullUp: null,
+    pullingUp:null,
     pullDown: null,
     bounceTop: true,
     bounceBottom: true
@@ -110,6 +131,7 @@ ScrollComponent.propTypes = {
     refresh: PropTypes.bool,
     onScroll: PropTypes.func,
     pullUp: PropTypes.func,
+    pullingUp:PropTypes.func,
     pullDown: PropTypes.func,
     pullUpLoading: PropTypes.bool,
     pullDownLoading: PropTypes.bool,

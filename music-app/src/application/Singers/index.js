@@ -1,17 +1,20 @@
-import React,{ useState,useEffect } from 'react';
+import React,{ useState,useEffect, useContext } from 'react';
 import Scroll from '../../components/scroll'
 import Horizen from '../../baseUI/horizen-item'
-import Loading from '../../components/loading'
 import * as actionTypes from './store/actionCreators'
+import LazyLoad, {forceCheck} from 'react-lazyload'
 import { connect } from 'react-redux'
 import { types, areas, alphaTypes } from '../../api/config'
 import { SingerContainer, NavigatorContainer, SingerWrapper, SingerItem } from './style'
+import { CHANGE_ALPHA, CategoryDataContext, CHANGE_CATEGORY, CHANGE_AREA } from './data';
 
 const Singers = (props)=>{
     const { singers, getSingers, loading, offset, changeOffset } = props
     const [ type,setType ] = useState(-1)
     const [ area, setArea] = useState(-1)
     const [ initial, setInitial] = useState('')
+    const { data, dispatch } = useContext(CategoryDataContext)
+    const { category, alpha } = data.toJS() 
 
     useEffect(()=>{
         getSingers({
@@ -20,19 +23,38 @@ const Singers = (props)=>{
             initial:initial,
             offset:offset
         })
-    },[type,area,initial])
+    },[type,area,initial,offset])
+
+    const refresh = ()=>{
+        getSingers({
+            type:type,
+            area:area,
+            initial:initial,
+            offset:offset
+        })
+    }
 
     const changeType = (val)=>{
+        dispatch({type: CHANGE_CATEGORY, data: val})
         setType(val)
     }
     const changeArea = (val)=>{
+        dispatch({type: CHANGE_AREA, data: val})
         setArea(val)
     }
     const changeAlpha = (val)=>{
+        dispatch({type: CHANGE_ALPHA, data: val})
         setInitial(val)
     }
-    const pullDown = (e)=>{
-        console.info(123,e)
+    const pullDown = ()=>{
+        changeOffset(offset + 1)
+    }
+    const pullingDown = ()=>{
+        if(offset!=0){
+            changeOffset(0)
+        }else{
+            refresh()
+        }
     }
 
     const singerList = singers? singers.toJS(): []
@@ -45,14 +67,16 @@ const Singers = (props)=>{
                 <Horizen list={ alphaTypes } value={ initial } title='首字母' handleClick={ changeAlpha }></Horizen>
             </NavigatorContainer>
             <SingerWrapper>
-                <Scroll pullDown={pullDown}>
+                <Scroll pullingUp={pullDown} pullDown={ pullingDown } pullDownLoading={loading} pullUpLoading={loading} onScroll={forceCheck}>
                     <div>
                         {
-                            singerList.map(item=>{
+                            singerList.map((item,index)=>{
                                 return (
-                                    <SingerItem key={item.id}>
+                                    <SingerItem key={index}>
                                         <div className='avatar'>
-                                            <img src={item.picUrl}/>
+                                            <LazyLoad placeholder={<img src={require("../../assets/images/placeholder.png")} width='100%' height='100%' />}>
+                                                <img src={item.picUrl+"?params=300x300"}/>
+                                            </LazyLoad>
                                         </div>
                                         <div className='name'>{item.name}</div>
                                     </SingerItem>
@@ -60,7 +84,7 @@ const Singers = (props)=>{
                             })
                         }
                     </div>
-                    { loading?<Loading></Loading>:null }
+                    {/* { loading?<Loading></Loading>:null } */}
                 </Scroll>
             </SingerWrapper>
         </SingerContainer>

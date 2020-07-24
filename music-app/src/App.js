@@ -1,6 +1,7 @@
 import React from 'react';
 import routes from './routes/index'
 import store from './store/index'
+import { Data } from './application/Singers/data'
 import { Provider } from 'react-redux'
 import { IconStyle } from './assets/iconfont/iconfont-component'
 import { HashRouter } from 'react-router-dom'
@@ -10,10 +11,12 @@ import './App.css';
 function App() {
     return (
         <Provider store={store}>
-        <HashRouter>
-            <IconStyle></IconStyle>
-            { renderRoutes(routes) }
-        </HashRouter>
+            <HashRouter>
+                <IconStyle></IconStyle>
+                <Data>
+                    { renderRoutes(routes) }
+                </Data>
+            </HashRouter>
         </Provider>
     );
 }

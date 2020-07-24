@@ -13,10 +13,6 @@ axiosInstance.interceptors.response.use(
     }
 )
 
-export const singerList = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20].map((item,index)=>{
-    return { id:index, picUrl:'http://p3.music.126.net/bBoXfTvCBryuuDB7yfcnxw==/39582418617681.jpg',name:'张国荣'}
-})
-
 export const types = [
     { name:'全部', key:-1 },
     { name:'男歌手', key:1 },
