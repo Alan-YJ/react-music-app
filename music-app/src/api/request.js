@@ -12,6 +12,6 @@ export const getRecommendListRequest = ()=>{
 //获取歌手数据
 export const getSingerListRequest = (params)=>{
     return axiosInstance.get('/artist/list',{
-        params:params
+        params
     })
 }
