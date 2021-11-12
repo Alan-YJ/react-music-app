@@ -8,9 +8,13 @@ import { HashRouter } from 'react-router-dom'
 import { renderRoutes } from 'react-router-config'
 import './App.css';
 
+<<<<<<< HEAD
 // develop 提交1
 // develop 提交2
 // develop 提交3
+=======
+// feature 提交1
+>>>>>>> 168acad (feature 提交1)
 function App() {
     return (
         <Provider store={store}>
